@@ -1,0 +1,3 @@
+# Project exclude paths
+/any-profile-service-api/target/
+/.idea

@@ -1,0 +1,166 @@
+openapi: 3.0.1
+info:
+  title: Any profile service API
+  description: Any profile service API
+  version: 1.0.0
+servers:
+  - url: 'https://localhost:8080'
+
+tags:
+  - name: ProfileOperations
+    description: operations with profile
+
+paths:
+  /api/v1/profile/{phoneNumber}:
+    get:
+      summary: Get all profiles by phone number
+      operationId: getProfileList
+      tags:
+        - ProfileOperations
+      parameters:
+        - name: phoneNumber
+          in: path
+          required: true
+          description: number of phone of profile
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Profile'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/v1/profile:
+    post:
+      summary: Add new profile
+      operationId: addNewProfile
+      tags:
+        - ProfileOperations
+      requestBody:
+        required: true
+        description: Create new profile for number of phone
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Profile'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    put:
+      summary: Update profile
+      operationId: updateProfile
+      tags:
+        - ProfileOperations
+      requestBody:
+        required: true
+        description: Update profile for number of phone
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Profile'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/v1/profile/{phoneNumber}/{profileId}:
+    delete:
+      summary: delete profile
+      operationId: deleteProfile
+      tags:
+        - ProfileOperations
+      parameters:
+        - name: phoneNumber
+          in: path
+          required: true
+          description: number of phone of profile
+          schema:
+            type: string
+        - name: profileId
+          in: path
+          required: true
+          description: id of profile
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Profile'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+
+  schemas:
+    Profile:
+      type: object
+      description: профиль
+      properties:
+        id:
+          description: id профиля
+          type: integer
+          format: int32
+        phoneNumber:
+          description: номер телефона
+          type: string
+        isActive:
+          description: этот профиль активный
+          type: boolean
+          default: false
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          description: Код ошибки
+          type: integer
+          format: int32
+        message:
+          description: Описание ошибки
+          type: string
